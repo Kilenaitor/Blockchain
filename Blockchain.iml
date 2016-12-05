@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="file:///home/payas/Teaching/CS165-2016-Payas/assignments/assignment_1/rsa.jar" />
+    <libelement value="file:///home/payas/Teaching/CS165-2016-Payas/assignments/assignment_1/grading/algs4.jar" />
+    <libelement value="file:///home/payas/Teaching/CS165-2016-Payas/assignments/assignment_1/grading/scroogeCoinGrader.jar" />
+    <libelement value="file:///home/payas/Teaching/CS165-2016-Payas/assignments/assignment_3/grading/blockChainGrader.jar" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="module-library">
+      <library name="rsa.jar">
+        <CLASSES>
+          <root url="file:///home/payas/Teaching/CS165-2016-Payas/assignments/assignment_1/rsa.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="algs4.jar">
+        <CLASSES>
+          <root url="file:///home/payas/Teaching/CS165-2016-Payas/assignments/assignment_1/grading/algs4.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="scroogeCoinGrader.jar">
+        <CLASSES>
+          <root url="file:///home/payas/Teaching/CS165-2016-Payas/assignments/assignment_1/grading/scroogeCoinGrader.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="blockChainGrader.jar">
+        <CLASSES>
+          <root url="file:///home/payas/Teaching/CS165-2016-Payas/assignments/assignment_3/grading/blockChainGrader.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>
