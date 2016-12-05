@@ -53,5 +53,20 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/algs4.jar!/" />
+          <root url="jar://$MODULE_DIR$/txCoinGrader.jar!/" />
+          <root url="jar://$MODULE_DIR$/rsa.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/blockChainGrader.jar!/" />
+          <root url="jar://$MODULE_DIR$/algs4.jar!/" />
+          <root url="jar://$MODULE_DIR$/txCoinGrader.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
