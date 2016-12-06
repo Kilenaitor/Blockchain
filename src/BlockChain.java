@@ -85,7 +85,8 @@ public class BlockChain {
      * and block should be at height > (maxHeight - CUT_OFF_AGE).
      * For example, you can try creating a new block over genesis block
      * (block height 2) if blockChain height is <= CUT_OFF_AGE + 1.
-     * As soon as height > CUT_OFF_AGE + 1, you cannot create a new block at height 2.
+     * As soon as height > CUT_OFF_AGE + 1,
+     * you cannot create a new block at height 2.
      * Return true of block is successfully added
      */
     public boolean addBlock(Block b) {
@@ -101,7 +102,8 @@ public class BlockChain {
         TxHandler handler = new TxHandler(previousBlock.getUTXOPoolCopy());
         ArrayList<Transaction> transactions = b.getTransactions();
         Transaction[] validTransactions = new Transaction[transactions.size()];
-        validTransactions = handler.handleTxs(transactions.toArray(validTransactions));
+        validTransactions = handler.handleTxs(
+            transactions.toArray(validTransactions));
         if(validTransactions.length < transactions.size()) return false;
 
         // Add transaction to pool

@@ -49,7 +49,8 @@ public class TxHandler {
             UTXO utxo = new UTXO(in.prevTxHash, in.outputIndex);
             Transaction.Output out = pool.getTxOutput(utxo);
             if(in.signature == null) return false;
-            if(!out.address.verifySignature(tx.getRawDataToSign(i), in.signature)) {
+            if(!out.address.verifySignature(
+                    tx.getRawDataToSign(i), in.signature)) {
                 return false;
             }
         }
