@@ -92,23 +92,24 @@ public class TxHandler {
         for(Transaction tx : possibleTxs) {
             if(isValidTx(tx)) {
                 txs.add(tx);
+            } else {
+                txs.add(null);
+                continue;
+            }
+
+            for(Transaction.Input in : tx.getInputs()) {
+                UTXO utxo = new UTXO(in.prevTxHash, in.outputIndex);
+                pool.removeUTXO(utxo);
+            }
+            for(int j = 0; j < tx.getOutputs().size(); j++) {
+                UTXO utxo = new UTXO(tx.getHash(), j);
+                pool.addUTXO(utxo, tx.getOutput(j));
             }
         }
 
         Transaction[] validTxs = new Transaction[txs.size()];
         for(int i = 0; i < validTxs.length; i++) {
             validTxs[i] = txs.get(i);
-        }
-
-        for(int i = 0; i < validTxs.length; i++) {
-            for(Transaction.Input in : validTxs[i].getInputs()) {
-                UTXO utxo = new UTXO(in.prevTxHash, in.outputIndex);
-                pool.removeUTXO(utxo);
-            }
-            for(int j = 0; j < validTxs[i].getOutputs().size(); j++) {
-                UTXO utxo = new UTXO(validTxs[i].getHash(), j);
-                pool.addUTXO(utxo, validTxs[i].getOutput(j));
-            }
         }
 
         return validTxs;
