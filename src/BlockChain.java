@@ -89,11 +89,22 @@ public class BlockChain {
      * Return true of block is successfully added
      */
     public boolean addBlock(Block b) {
+        // Check previous hash
         byte[] previousHash = b.getPrevBlockHash();
         if(previousHash == null) return false;
 
+        // Check block of previous hash
         BlockNode previousBlock = H.get(new ByteArrayWrapper(previousHash));
         if(previousBlock == null) return false;
+
+        // Verify all transactions are valid
+        TxHandler handler = new TxHandler(previousBlock.getUTXOPoolCopy());
+        ArrayList<Transaction> transactions = b.getTransactions();
+        Transaction[] validTransactions = new Transaction[transactions.size()];
+        validTransactions = handler.handleTxs(transactions.toArray(validTransactions));
+        if(validTransactions.length < transactions.size()) return false;
+
+        // Otherwise valid
 
         return true;
     }
