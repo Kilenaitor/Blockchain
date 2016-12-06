@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /* Block Chain should maintain only limited block nodes to satisfy the functions
-   You should not have the all the blocks added to the block chain in memory 
+   You should not have the all the blocks added to the block chain in memory
    as it would overflow memory
  */
 
@@ -46,29 +46,38 @@ public class BlockChain {
      * Assume genesis block is a valid block
      */
     public BlockChain(Block genesisBlock) {
+        UTXOPool uPool = new UTXOPool();
+        Transaction coinbase = genesisBlock.getCoinbase();
+        UTXO uxtoCoinbase = new UTXO(coinbase.getHash(), 0);
+        uPool.addUTXO(uxtoCoinbase, coinbase.getOutput(0));
+        BlockNode genesis = new BlockNode(genesisBlock, null, uPool);
+        heads = new ArrayList<>();
 
+        heads.add(genesis);
+        H = new HashMap<>();
+        H.put(new ByteArrayWrapper(genesisBlock.getHash()), genesis);
+        height = 1;
+        maxHeightBlock = genesis;
+        txPool = new TransactionPool();
     }
 
     /* Get the maximum height block
      */
     public Block getMaxHeightBlock() {
-        // IMPLEMENT THIS
-        return null;
+        return maxHeightBlock.b;
     }
 
     /* Get the UTXOPool for mining a new block on top of
      * max height block
      */
     public UTXOPool getMaxHeightUTXOPool() {
-        // IMPLEMENT THIS
-        return null;
+        return maxHeightBlock.uPool;
     }
 
     /* Get the transaction pool to mine a new block
      */
     public TransactionPool getTransactionPool() {
-        // IMPLEMENT THIS
-        return null;
+        return txPool;
     }
 
     /* Add a block to block chain if it is valid.
@@ -80,13 +89,15 @@ public class BlockChain {
      * Return true of block is successfully added
      */
     public boolean addBlock(Block b) {
-        // IMPLEMENT THIS
-        return false;
+        byte[] previousHash = b.getPrevBlockHash();
+        if(previousHash == null) return false;
+
+        return true;
     }
 
     /* Add a transaction in transaction pool
      */
     public void addTransaction(Transaction tx) {
-        // IMPLEMENT THIS
+        txPool.addTransaction(tx);
     }
 }
