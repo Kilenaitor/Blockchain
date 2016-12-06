@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class TxHandler {
 
-    static UTXOPool pool;
+    private UTXOPool pool;
 
     /* Creates a public ledger whose current UTXOPool (collection of unspent
      * transaction outputs) is utxoPool. This should make a defensive copy of
@@ -21,12 +21,12 @@ public class TxHandler {
         return new UTXOPool(this.pool);
     }
 
-	/* Returns true if 
-	 * (1) all outputs claimed by tx are in the current UTXO pool, 
-	 * (2) the signatures on each input of tx are valid, 
-	 * (3) no UTXO is claimed multiple times by tx, 
+	/* Returns true if
+	 * (1) all outputs claimed by tx are in the current UTXO pool,
+	 * (2) the signatures on each input of tx are valid,
+	 * (3) no UTXO is claimed multiple times by tx,
 	 * (4) all of tx’s output values are non-negative, and
-	 * (5) the sum of tx’s input values is greater than or equal to the sum of   
+	 * (5) the sum of tx’s input values is greater than or equal to the sum of
 	        its output values;
 	   and false otherwise.
 	 */
@@ -47,11 +47,9 @@ public class TxHandler {
         for(int i = 0; i < tx.numInputs(); i++) {
             Transaction.Input in = tx.getInput(i);
             UTXO utxo = new UTXO(in.prevTxHash, in.outputIndex);
-            if(pool.getTxOutput(utxo) != null) {
-                Transaction.Output out = pool.getTxOutput(utxo);
-                if(!out.address.verifySignature(tx.getRawDataToSign(i), in.signature)) {
-                    return false;
-                }
+            Transaction.Output out = pool.getTxOutput(utxo);
+            if(!out.address.verifySignature(tx.getRawDataToSign(i), in.signature)) {
+                return false;
             }
         }
 
@@ -60,12 +58,10 @@ public class TxHandler {
         for(int i = 0; i < tx.numInputs(); i++) {
             Transaction.Input in = tx.getInput(i);
             UTXO utxo = new UTXO(in.prevTxHash, in.outputIndex);
+            if(trans.contains(utxo)) {
+                return false;
+            }
             trans.add(utxo);
-        }
-
-        trans = trans.parallelStream().distinct().collect(Collectors.toList());
-        if(trans.size() < tx.numInputs()) {
-            return false;
         }
 
         // 4
@@ -79,9 +75,7 @@ public class TxHandler {
         // 5
         for(Transaction.Input in : tx.getInputs()) {
             UTXO utxo = new UTXO(in.prevTxHash, in.outputIndex);
-            if(pool.getTxOutput(utxo) != null) {
-                inTotal += pool.getTxOutput(utxo).value;
-            }
+            inTotal += pool.getTxOutput(utxo).value;
         }
 
         return inTotal >= outTotal;
