@@ -108,9 +108,7 @@ public class TxHandler {
         }
 
         Transaction[] validTxs = new Transaction[txs.size()];
-        for(int i = 0; i < validTxs.length; i++) {
-            validTxs[i] = txs.get(i);
-        }
+        validTxs = txs.toArray(validTxs);
 
         return validTxs;
     }
