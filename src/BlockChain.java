@@ -92,6 +92,9 @@ public class BlockChain {
         byte[] previousHash = b.getPrevBlockHash();
         if(previousHash == null) return false;
 
+        BlockNode previousBlock = H.get(new ByteArrayWrapper(previousHash));
+        if(previousBlock == null) return false;
+
         return true;
     }
 
