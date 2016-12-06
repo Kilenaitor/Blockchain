@@ -93,7 +93,6 @@ public class TxHandler {
             if(isValidTx(tx)) {
                 txs.add(tx);
             } else {
-                txs.add(null);
                 continue;
             }
 
