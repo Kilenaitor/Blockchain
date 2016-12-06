@@ -17,6 +17,10 @@ public class TxHandler {
         pool = new UTXOPool(utxoPool);
     }
 
+    public UTXOPool getUTXOPool() {
+        return new UTXOPool(this.pool);
+    }
+
 	/* Returns true if 
 	 * (1) all outputs claimed by tx are in the current UTXO pool, 
 	 * (2) the signatures on each input of tx are valid, 
@@ -26,9 +30,7 @@ public class TxHandler {
 	        its output values;
 	   and false otherwise.
 	 */
-
     public boolean isValidTx(Transaction tx) {
-
         double outTotal = 0.0;
         double inTotal = 0.0;
 
@@ -91,8 +93,30 @@ public class TxHandler {
      * and updating the current UTXO pool as appropriate.
      */
     public Transaction[] handleTxs(Transaction[] possibleTxs) {
-        // IMPLEMENT THIS
-        return possibleTxs;
-    }
+        ArrayList<Transaction> txs = new ArrayList<>();
 
-} 
+        for(Transaction tx : possibleTxs) {
+            if(isValidTx(tx)) {
+                txs.add(tx);
+            }
+        }
+
+        Transaction[] validTxs = new Transaction[txs.size()];
+        for(int i = 0; i < validTxs.length; i++) {
+            validTxs[i] = txs.get(i);
+        }
+
+        for(int i = 0; i < validTxs.length; i++) {
+            for(Transaction.Input in : validTxs[i].getInputs()) {
+                UTXO utxo = new UTXO(in.prevTxHash, in.outputIndex);
+                pool.removeUTXO(utxo);
+            }
+            for(int j = 0; j < validTxs[i].getOutputs().size(); j++) {
+                UTXO utxo = new UTXO(validTxs[i].getHash(), j);
+                pool.addUTXO(utxo, validTxs[i].getOutput(j));
+            }
+        }
+
+        return validTxs;
+    }
+}
