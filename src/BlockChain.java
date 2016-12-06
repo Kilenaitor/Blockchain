@@ -104,9 +104,29 @@ public class BlockChain {
         validTransactions = handler.handleTxs(transactions.toArray(validTransactions));
         if(validTransactions.length < transactions.size()) return false;
 
-        // Otherwise valid
+        // Add transaction to pool
+        UTXOPool pool = handler.getUTXOPool();
+        Transaction coinbase = b.getCoinbase();
+        pool.addUTXO(new UTXO(coinbase.getHash(), 0), coinbase.getOutput(0));
 
-        return true;
+        // Create and add the new block
+        BlockNode newBlock = new BlockNode(b, previousBlock, pool);
+        H.put(new ByteArrayWrapper(b.getHash()), newBlock);
+
+        // Remove transactions from block
+        for(Transaction transaction : b.getTransactions()) {
+            txPool.removeTransaction(transaction.getHash());
+        }
+
+        // Adjust height
+        int currentHeight = previousBlock.height + 1;
+        if(currentHeight > height) {
+            height = currentHeight;
+            maxHeightBlock = newBlock;
+        }
+
+        // Check height validity
+        return newBlock.height > height - CUT_OFF_AGE;
     }
 
     /* Add a transaction in transaction pool
