@@ -94,9 +94,11 @@ public class TxHandler {
             if(isValidTx(tx)) {
                 txs.add(tx);
             } else {
+                // Skip invalid transactions
                 continue;
             }
 
+            // Process valid transactions
             for(Transaction.Input in : tx.getInputs()) {
                 UTXO utxo = new UTXO(in.prevTxHash, in.outputIndex);
                 pool.removeUTXO(utxo);
@@ -107,6 +109,7 @@ public class TxHandler {
             }
         }
 
+        // Convert ArrayList back to Array
         Transaction[] validTxs = new Transaction[txs.size()];
         validTxs = txs.toArray(validTxs);
 
